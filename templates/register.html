@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Register Here</title>
+    </head>
+    <body>
+        <form method="post" >
+            {% if session['registeruniqueerror'] %}
+            <strong><h1>USERNAME ALREADY REGISTERED</h1></strong>
+            {% endif %}
+            Username: <input type="text" name="username"/>
+            Password: <input type="password" name="password"/>
+            <input type="submit" name="submit">
+        </form>
+    </body>
+</html>

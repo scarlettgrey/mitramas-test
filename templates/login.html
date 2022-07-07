@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Login Here</title>
+    </head>
+    <body>
+        <form method="post" >
+            {% if session['wrong'] %}
+            <strong><h1>WRONG USERNAME OR PASSWORD</h1></strong>
+            {% endif %}
+            Username: <input type="text" name="username"/>
+            Password: <input type="password" name="password"/>
+            <input type="submit" name="submit">
+        </form>
+    </body>
+</html>

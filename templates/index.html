@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Welcome to My Web</title>
+    </head>
+    <body>
+        <h1>Login</h1>
+        {% if session['islogin'] %}
+        Hello <strong>{{session['username']}}</strong>
+        <a href="./logout">Log out!</a>
+        <br><br><br>
+        
+        {% if session['check']['bool'] %}
+        <h1>{{session['check']['intime']}}</h1>
+        <form method="post">
+            <input type="hidden" name="option" value="checkout">
+            <input type="submit" value="Check Out">
+        </form>
+        {% else %}
+        <form method="post">
+            <input type="hidden" name="option" value="checkin">
+            <input type="submit" value="Check In">
+        </form>
+        {% endif %}
+        <br><br><br>
+        
+        <form method="post">
+            <input type="text" name="task">
+            <input type="hidden" name="option" value="add">
+            <input type="submit" value="Add Task">
+        </form>
+
+        <br><br><br>
+        <h1><strong>riwayat absensi</strong></h1>
+        {% for history in history_checks %}
+        {% if history[1] == 'null' %}
+        <li>checkin : {{history[0]}} | checkout: -</li>
+        {% else %}
+        <li>checkin : {{history[0]}} | checkout: {{history[1]}}</li>
+        {% endif %}
+        {% endfor %}
+        <br><br><br>
+
+        <h1><strong>riwayat aktivitas</strong></h1>
+        <form method="post">
+            <input type="date" name="activitydate">
+            <input type="hidden" name="option" value="searchtask">
+            <input type="submit" value="search">
+        </form>
+        {% for history in history_activities %}
+        <li>{{history[0]}} | {{history[1]}}
+            <form method="post">
+                <input type="hidden" name="activitytime" value="{{history[0]}}">
+                <input type="hidden" name="activityname" value='{{history[1]}}'>
+                <input type="text" name="activitynewname">
+                <input type="hidden" name="option" value="edit">
+                <input type="submit" value="Edit">
+            </form>
+            <form method="post">
+                <input type="hidden" name="activitytime" value="{{history[0]}}">
+                <input type="hidden" name="activityname" value='{{history[1]}}'>
+                <input type="hidden" name="option" value="delete">
+                <input type="submit" value="Delete">
+            </form>
+        </li>
+        {% endfor %}
+
+        {% else %}
+        <a href="./register">Register Here!</a>
+        <br>
+        <a href="./login">Please Login Here</a>
+        {% endif %}
+        
+
+    </body>
+</html>
