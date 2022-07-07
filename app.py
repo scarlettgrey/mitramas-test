@@ -66,6 +66,8 @@ def logout():
 
 @app.route('/index', methods=['GET', 'POST'])
 def index():
+    if 'islogin' not in session:
+        session['islogin'] = False
     issearchdate = False
     if session['islogin']:
         conn = mysql.connection.cursor()
@@ -137,4 +139,4 @@ def index():
 
 @app.route('/', methods=['GET'])
 def hello():
-    return index()
+    return redirect(url_for('index'))
