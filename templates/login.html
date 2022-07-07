@@ -4,9 +4,13 @@
         <title>Login Here</title>
     </head>
     <body>
+        <h1><strog>LOGIN</strog></h1>
         <form method="post" >
             {% if session['wrong'] %}
             <strong><h1>WRONG USERNAME OR PASSWORD</h1></strong>
+            {% endif %}
+            {% if session['loginnullwarning'] %}
+            <strong><h1>USERNAME OR PASSWORD CAN'T BE EMPTY</h1></strong>
             {% endif %}
             Username: <input type="text" name="username"/>
             Password: <input type="password" name="password"/>

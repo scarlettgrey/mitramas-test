@@ -20,41 +20,55 @@ mysql = MySQL(app)
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'GET':
+        session['registernullwarning'] = False
         return render_template('register.html')
     elif request.method == 'POST':
-        session['username'] = username = request.form['username']
-        password = request.form['password']
-        conn = mysql.connection.cursor()
-        try:
-            conn.execute("""INSERT INTO users(username, password) VALUES(%s,%s)""", [username, password])
-            mysql.connection.commit()
-            conn.close()
-            session['registeruniqueerror'] = False
-            return redirect(url_for('index'))
-        except Exception as e:
-            session['registeruniqueerror'] = True
+        if request.form['username'] == '' or request.form['password'] == '':
+            session['registernullwarning'] = True
             return render_template('register.html')
+        else:
+            session['username'] = username = request.form['username']
+            password = request.form['password']
+            conn = mysql.connection.cursor()
+            try:
+                conn.execute("""INSERT INTO users(username, password) VALUES(%s,%s)""", [username, password])
+                mysql.connection.commit()
+                conn.close()
+                session['registeruniqueerror'] = False
+                session['usernamenullwarning'] = False
+                session['passwordnullwarning'] = False
+                session['islogin'] = True
+                return redirect(url_for('index'))
+            except Exception as e:
+                session['registeruniqueerror'] = True
+                return render_template('register.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':       
-        conn = mysql.connection.cursor()
-        conn.execute("""SELECT password FROM users WHERE username=%s""", [request.form['username']])
-        result = conn.fetchall()
-        conn.close()
-        if result:
-            session['wrong'] = False
-            if result[0][0] == request.form['password']:
-                session['islogin'] = True
-                session['username'] = request.form['username']
-                return redirect(url_for('index'))
+        if request.form['username'] == '' or request.form['password'] == '':
+            session['loginnullwarning'] = True
+            return render_template('login.html')
+        else:
+            session['loginnullwarning'] = False
+            conn = mysql.connection.cursor()
+            conn.execute("""SELECT password FROM users WHERE username=%s""", [request.form['username']])
+            result = conn.fetchall()
+            conn.close()
+            if result:
+                session['wrong'] = False
+                if result[0][0] == request.form['password']:
+                    session['islogin'] = True
+                    session['username'] = request.form['username']
+                    return redirect(url_for('index'))
+                else:
+                    session['wrong'] = True
+                    return render_template('login.html')
             else:
                 session['wrong'] = True
                 return render_template('login.html')
-        else:
-            session['wrong'] = True
-            return render_template('login.html')
     elif request.method == 'GET':
+        session['loginnullwarning'] = False
         return render_template('login.html')
 
 @app.route('/logout', methods=['GET'])

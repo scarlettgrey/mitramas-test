@@ -4,9 +4,13 @@
         <title>Register Here</title>
     </head>
     <body>
+        <h1><strog>REGISTER</strog></h1>
         <form method="post" >
             {% if session['registeruniqueerror'] %}
             <strong><h1>USERNAME ALREADY REGISTERED</h1></strong>
+            {% endif %}
+            {% if session['registernullwarning'] %}
+            <strong><h1>USERNAME OR PASSWORD CAN'T BE EMPTY</h1></strong>
             {% endif %}
             Username: <input type="text" name="username"/>
             Password: <input type="password" name="password"/>
