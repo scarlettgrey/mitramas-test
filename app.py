@@ -11,10 +11,10 @@ app.secret_key = 'pretestmitramas_df%&'
 app.config['SESSION_TYPE'] = 'filesystem'
 sess.init_app(app)
 
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'mitramas'
+app.config['MYSQL_HOST'] = 'remotemysql.com'
+app.config['MYSQL_USER'] = 'TL2O72Uy3k'
+app.config['MYSQL_PASSWORD'] = 'fB3oxE4BPc'
+app.config['MYSQL_DB'] = 'TL2O72Uy3k'
 mysql = MySQL(app)
 
 @app.route('/register', methods=['GET', 'POST'])
